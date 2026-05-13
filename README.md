@@ -17,48 +17,61 @@ This project demonstrates deployment and management of web applications on AWS c
 
 ---
 
-## Project Tasks
+# Architecture Diagram
 
-### Part 1: Launch EC2 Instances
+<img src="Screenshot 2026-04-29 133742.png" width="1000">
+
+---
+
+# Project Tasks
+
+## Part 1: Launch EC2 Instances
 - Launched Amazon Linux EC2 instance
 - Launched Ubuntu EC2 instance
 - Connected using SSH
 
-### Part 2: Spotify Application Deployment
+### EC2 Instances
+<img src="screenshots/ec2.png" width="900">
+
+---
+
+## Part 2: Spotify Application Deployment
 - Installed Apache Web Server
 - Configured Apache on Port 81
 - Deployed Spotify Clone Application
 
-### Part 3: Tinder Application Deployment
+### Spotify Application Output
+<img src="screenshots/spotify.png" width="900">
+
+---
+
+## Part 3: Tinder Application Deployment
 - Installed Nginx Web Server
 - Configured Nginx on Port 85
 - Deployed Tinder Clone Application
 
-### Part 4: AMI Replication
+### Tinder Application Output
+<img src="Screenshot 2026-04-29 133742.png" width="1000">
+
+---
+
+## Part 4: AMI Replication
 - Created AMI of Spotify Server
 - Copied AMI to Mumbai Region
 - Launched replicated instance
 
----
+### AMI Creation
+<img src="screenshots/ami.png" width="900">
 
-# Screenshots
-
-## EC2 Instances
-![EC2](screenshots/ec2.png)
-
-## Spotify Application
-![Spotify](screenshots/spotify.png)
-
-## Tinder Application
-![Tinder](screenshots/tinder.png)
-
-## AMI Creation
-![AMI](screenshots/ami.png)
-
-## Replicated Application
-![Replication](screenshots/replication.png)
+### Replicated Spotify Application
+<img src="screenshots/replication.png" width="900">
 
 ---
 
-## Author
+# Project Summary
+Successfully deployed Spotify and Tinder clone applications on AWS EC2 instances using Apache and Nginx web servers. Also implemented AMI-based replication to demonstrate scalability and application migration across AWS regions.
+
+---
+
+# Author
 Pratik Dere
