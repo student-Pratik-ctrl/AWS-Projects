@@ -19,7 +19,7 @@ This project demonstrates deployment and management of web applications on AWS c
 
 # Architecture Diagram
 
-<img src="Screenshot 2026-04-29 133742.png" width="1000">
+<img src="Architecture diagram.png" width="1000">
 
 ---
 
@@ -31,7 +31,7 @@ This project demonstrates deployment and management of web applications on AWS c
 - Connected using SSH
 
 ### EC2 Instances
-<img src="screenshots/ec2.png" width="900">
+<img src="Screenshot 2026-04-29 143701.png" width="900">
 
 ---
 
@@ -41,7 +41,7 @@ This project demonstrates deployment and management of web applications on AWS c
 - Deployed Spotify Clone Application
 
 ### Spotify Application Output
-<img src="screenshots/spotify.png" width="900">
+<img src="Screenshot 2026-04-29 141154.png" width="900">
 
 ---
 
@@ -61,17 +61,13 @@ This project demonstrates deployment and management of web applications on AWS c
 - Launched replicated instance
 
 ### AMI Creation
-<img src="screenshots/ami.png" width="900">
+<img src="Screenshot 2026-04-29 140323.png" width="900">
 
 ### Replicated Spotify Application
-<img src="screenshots/replication.png" width="900">
+<img src="Screenshot 2026-04-29 141409.png" width="900">
 
 ---
 
 # Project Summary
 Successfully deployed Spotify and Tinder clone applications on AWS EC2 instances using Apache and Nginx web servers. Also implemented AMI-based replication to demonstrate scalability and application migration across AWS regions.
 
----
-
-# Author
-Pratik Dere
