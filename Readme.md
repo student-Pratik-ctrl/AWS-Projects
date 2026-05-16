@@ -17,7 +17,7 @@ This project demonstrates how to:
 
 # 🏗️ Architecture Diagram
 
-![](./architecture.png)
+![](./Architecture_ebs.png)
 
 ---
 
