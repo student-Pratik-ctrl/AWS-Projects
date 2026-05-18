@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>document</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose'
+    });
+    window.addEventListener('load', function() {
+      var converted = new Set();
+
+      document.querySelectorAll('pre').forEach(function(pre) {
+        var code = pre.querySelector('code');
+        var preHasMermaid = pre.className && pre.className.indexOf('mermaid') !== -1;
+        var codeHasMermaid =
+          code &&
+          (code.className || '').match(/(?:^|\s)(?:mermaid|language-mermaid)(?:\s|$)/);
+
+        if (preHasMermaid || codeHasMermaid) {
+          var div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = code ? code.textContent : pre.textContent;
+          if (pre.parentNode) {
+            if (code) {
+              converted.add(code);
+            }
+            pre.parentNode.replaceChild(div, pre);
+          }
+        }
+      });
+
+      // Handle rare cases where mermaid markup exists without a <pre> wrapper
+      document.querySelectorAll('code').forEach(function(code) {
+        var hasMermaid = (code.className || '').indexOf('mermaid') !== -1 || (code.className || '').indexOf('language-mermaid') !== -1;
+        if (!hasMermaid || converted.has(code)) {
+          return;
+        }
+        var wrapper = document.createElement('div');
+        wrapper.className = 'mermaid';
+        wrapper.textContent = code.textContent;
+        if (code.parentNode) {
+          code.parentNode.replaceChild(wrapper, code);
+          converted.add(wrapper);
+        }
+      });
+
+      setTimeout(function() {
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      }, 100);
+    });
+  </script>
+
+  <style>
+  body {
+      font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      line-height: 1.5;
+      color: #333;
+      background-color: #fafafa;
+      margin: 0 !important;
+      padding: 20px !important;
+      font-size: 14px;
+  }
+
+  table {
+      border-collapse: collapse;
+      min-width: 60%;
+      max-width: 100%;
+      margin: 20px 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  table tr th {
+      background-color: #143452;
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 500;
+  }
+
+  .table-http th,
+  .table-http td,
+  table th,
+  table td {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: normal;
+  }
+
+  .tr-break {
+      background-color: #2d79b717 !important;
+  }
+
+  .tr-break td {
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: bold;
+  }
+
+  table tr td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ecf0f1;
+  }
+
+  table tr:last-child td {
+      border-bottom: none;
+  }
+
+  table tr:nth-child(even) {
+      background-color: #f8f9fa;
+  }
+
+  .highlight {
+      background-color: #fff3cd !important;
+  }
+
+  a {
+      font-size: 14px;
+  }
+
+  code {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: #fff8e4;
+      color: #c99a0d;
+      font-size: 13px;
+  }
+
+  pre code {
+      background-color: transparent;
+  }
+
+  pre {
+      background-color: #000;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 6px;
+      border-left: 4px solid #3498db;
+      overflow-x: auto;
+  }
+
+  pre code.language-php,
+  pre code.language-sql,
+  pre code.language-javascript,
+  pre code.language-bash,
+  pre code.language-shell {
+    background-color: #282c34 !important;
+    color: #abb2bf;
+  }
+
+  /* Syntax Highlighting */
+  code span.kw { color: #c678dd; font-weight: bold; } /* Keyword */
+  code span.dt { color: #e5c07b; } /* Datatype */
+  code span.dv { color: #d19a66; } /* Decimal Value */
+  code span.bn { color: #d19a66; } /* Base N */
+  code span.fl { color: #d19a66; } /* Float */
+  code span.ch { color: #98c379; } /* Char */
+  code span.st { color: #98c379; } /* String */
+  code span.co { color: #5c6370; font-style: italic; } /* Comment */
+  code span.ot { color: #e06c75; } /* Other */
+  code span.al { color: #e06c75; font-weight: bold; } /* Alert */
+  code span.fu { color: #61afef; } /* Function */
+  code span.er { color: #e06c75; font-weight: bold; } /* Error */
+  code span.wa { color: #e06c75; font-style: italic; } /* Warning */
+  code span.cn { color: #d19a66; } /* Constant */
+  code span.sc { color: #e5c07b; } /* Special Char */
+  code span.vs { color: #98c379; } /* Verbatim String */
+  code span.ss { color: #98c379; } /* Special String */
+  code span.im { color: #c678dd; } /* Import */
+  code span.va { color: #e06c75; } /* Variable */
+  code span.cf { color: #c678dd; } /* Control Flow */
+  code span.op { color: #56b6c2; } /* Operator */
+  code span.bu { color: #e5c07b; } /* BuiltIn */
+  code span.ex { color: #d19a66; } /* Extension */
+  code span.pp { color: #e5c07b; } /* Preprocessor */
+  code span.at { color: #d19a66; } /* Attribute */
+  code span.do { color: #5c6370; font-style: italic; } /* Documentation */
+  code span.an { color: #5c6370; font-style: italic; } /* Annotation */
+  code span.cv { color: #5c6370; font-style: italic; } /* Comment Var */
+  code span.in { color: #5c6370; font-style: italic; } /* Information */
+
+  ul, ol {
+      margin: 15px 0;
+      padding-left: 30px;
+  }
+
+  li {
+      margin-bottom: 8px;
+  }
+
+  blockquote {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+      color: #856404;
+  }
+
+  pre code.language-json {
+    background-color: #0d1117 !important;
+    color: #58a6ff !important;
+    display: block;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: -15px;
+  }
+
+  .table-http code {
+      font-size: 12px;
+  }
+
+  .table-http th:nth-child(1),.table-http td:nth-child(1) { width: 8%; }  /* HTTP Method */
+  .table-http th:nth-child(2),.table-http td:nth-child(2) { width: 15%; } /* URL */
+  .table-http th:nth-child(3),.table-http td:nth-child(3) { width: 19%; } /* Mô tả */
+  .table-http th:nth-child(4),.table-http td:nth-child(4) { width: 43%; } /* RewriteRule */
+  .table-http th:nth-child(5),.table-http td:nth-child(5) { width: 15%; } /* Ví dụ */
+
+  pre, pre.sourceCode {
+      background-color: #c0c4c73b;
+  }
+
+  .sourceCode {
+      overflow: auto;
+  }
+
+  /* Pandoc highlight overrides */
+  pre.sourceCode {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      padding: 16px;
+      border-radius: 6px;
+  }
+  .sourceCode code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 13px;
+      padding: unset !important;
+  }
+  .sourceCode .kw { color: #2a8ad4; font-weight: 700; }    /* keywords */
+  .sourceCode .cf { color: #2a8ad4; font-weight: 700; }    /* control flow */
+  .sourceCode .dt { color: #070707; }                      /* data types */
+  .sourceCode .fu { color: #8b5cf6; }                     /* functions */
+  .sourceCode .op { color: #2a8ad4; }                     /* operators */
+  .sourceCode .st { color: #0aa370; }                     /* strings */
+  .sourceCode .dv,                                     /* decimal values */
+  .sourceCode .bn { color: #c18401; }                     /* numbers */
+  .sourceCode .fl { color: #c18401; }                     /* floats */
+  .sourceCode .ch { color: #0aa370; }                     /* chars */
+  .sourceCode .co { color: #6a737d; font-style: italic; } /* comments */
+  .sourceCode .va { color: #444; }                        /* variables */
+  .sourceCode .cn { color: #c18401; font-weight: 700; }   /* constants */
+  .sourceCode .al { color: #d73a49; font-weight: 700; }   /* alerts */
+  .sourceCode .an { color: #d73a49; font-weight: 700; }   /* annotations */
+  .sourceCode .at { color: #005cc5; }                     /* attributes */
+  .sourceCode .im { color: #005cc5; }                     /* imports */
+
+  #TOC {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  #TOC > ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  #TOC ul {
+    list-style: none;
+    padding-left: 20px;
+  }
+
+  #TOC li {
+    margin: 8px 0;
+  }
+
+  #TOC a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  #TOC a:hover {
+    color: #004499;
+    text-decoration: underline;
+  }
+
+  #TOC > ul > li > a {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+  }
+
+  #TOC ul ul a {
+    font-size: 0.95em;
+    color: #555;
+  }
+
+  hr {
+      background: #cacaca;
+  }
+
+  .w-50 {
+      width: 50%;
+  }
+
+  .w-100 {
+      width: 100%;
+  }
+
+  .max-w-100 {
+      max-width: 100% !important;
+  }
+
+  .shadow-xs {
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  a {
+      font-size: 14px;
+  }
+
+  code {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: #fff8e4;
+      color: #c99a0d;
+      font-size: 13px;
+  }
+
+  pre code {
+      background-color: transparent;
+  }
+
+  pre {
+      background-color: #000;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 6px;
+      border-left: 4px solid #3498db;
+      overflow-x: auto;
+  }
+
+  pre.sourceCode {
+      border-left: 4px solid #3498db;
+  }
+
+  pre code.language-php,
+  pre code.language-sql,
+  pre code.language-javascript,
+  pre code.language-bash,
+  pre code.language-shell {
+    background-color: #282c34 !important;
+    color: #abb2bf;
+  }
+
+  /* Syntax Highlighting */
+  code span.kw { color: #c678dd; font-weight: bold; } /* Keyword */
+  code span.dt { color: #e5c07b; } /* Datatype */
+  code span.dv { color: #d19a66; } /* Decimal Value */
+  code span.bn { color: #d19a66; } /* Base N */
+  code span.fl { color: #d19a66; } /* Float */
+  code span.ch { color: #98c379; } /* Char */
+  code span.st { color: #98c379; } /* String */
+  code span.co { color: #5c6370; font-style: italic; } /* Comment */
+  code span.ot { color: #e06c75; } /* Other */
+  code span.al { color: #e06c75; font-weight: bold; } /* Alert */
+  code span.fu { color: #61afef; } /* Function */
+  code span.er { color: #e06c75; font-weight: bold; } /* Error */
+  code span.wa { color: #e06c75; font-style: italic; } /* Warning */
+  code span.cn { color: #d19a66; } /* Constant */
+  code span.sc { color: #e5c07b; } /* Special Char */
+  code span.vs { color: #98c379; } /* Verbatim String */
+  code span.ss { color: #98c379; } /* Special String */
+  code span.im { color: #c678dd; } /* Import */
+  code span.va { color: #e06c75; } /* Variable */
+  code span.cf { color: #c678dd; } /* Control Flow */
+  code span.op { color: #56b6c2; } /* Operator */
+  code span.bu { color: #e5c07b; } /* BuiltIn */
+  code span.ex { color: #d19a66; } /* Extension */
+  code span.pp { color: #e5c07b; } /* Preprocessor */
+  code span.at { color: #d19a66; } /* Attribute */
+  code span.do { color: #5c6370; font-style: italic; } /* Documentation */
+  code span.an { color: #5c6370; font-style: italic; } /* Annotation */
+  code span.cv { color: #5c6370; font-style: italic; } /* Comment Var */
+  code span.in { color: #5c6370; font-style: italic; } /* Information */
+
+  ul, ol {
+      margin: 15px 0;
+      padding-left: 30px;
+  }
+
+  li {
+      margin-bottom: 8px;
+  }
+
+  blockquote {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+      color: #856404;
+  }
+
+  pre code.language-json {
+    background-color: #0d1117 !important;
+    color: #58a6ff !important;
+    display: block;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: -15px;
+  }
+
+  .table-http code {
+      font-size: 12px;
+  }
+
+  .table-http th:nth-child(1),.table-http td:nth-child(1) { width: 8%; }  /* HTTP Method */
+  .table-http th:nth-child(2),.table-http td:nth-child(2) { width: 15%; } /* URL */
+  .table-http th:nth-child(3),.table-http td:nth-child(3) { width: 19%; } /* Mô tả */
+  .table-http th:nth-child(4),.table-http td:nth-child(4) { width: 43%; } /* RewriteRule */
+  .table-http th:nth-child(5),.table-http td:nth-child(5) { width: 15%; } /* Ví dụ */
+
+  pre, pre.sourceCode {
+      background-color: #c0c4c73b;
+  }
+
+  .sourceCode {
+      overflow: auto;
+  }
+
+  /* Pandoc highlight overrides */
+  pre.sourceCode {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      padding: 16px;
+      border-radius: 6px;
+      border-left: 4px solid #3498db;
+  }
+  .sourceCode code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 13px;
+  }
+  .sourceCode .kw { color: #2a8ad4; font-weight: 700; }    /* keywords */
+  .sourceCode .cf { color: #2a8ad4; font-weight: 700; }    /* control flow */
+  .sourceCode .dt { color: #070707; }                      /* data types */
+  .sourceCode .fu { color: #8b5cf6; }                     /* functions */
+  .sourceCode .op { color: #2a8ad4; }                     /* operators */
+  .sourceCode .st { color: #0aa370; }                     /* strings */
+  .sourceCode .dv,                                     /* decimal values */
+  .sourceCode .bn { color: #c18401; }                     /* numbers */
+  .sourceCode .fl { color: #c18401; }                     /* floats */
+  .sourceCode .ch { color: #0aa370; }                     /* chars */
+  .sourceCode .co { color: #6a737d; font-style: italic; } /* comments */
+  .sourceCode .va { color: #444; }                        /* variables */
+  .sourceCode .cn { color: #c18401; font-weight: 700; }   /* constants */
+  .sourceCode .al { color: #d73a49; font-weight: 700; }   /* alerts */
+  .sourceCode .an { color: #d73a49; font-weight: 700; }   /* annotations */
+  .sourceCode .at { color: #005cc5; }                     /* attributes */
+  .sourceCode .im { color: #005cc5; }                     /* imports */
+
+  #TOC {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  #TOC > ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  #TOC ul {
+    list-style: none;
+    padding-left: 20px;
+  }
+
+  #TOC li {
+    margin: 8px 0;
+  }
+
+  #TOC a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  #TOC a:hover {
+    color: #004499;
+    text-decoration: underline;
+  }
+
+  #TOC > ul > li > a {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+  }
+
+  #TOC ul ul a {
+    font-size: 0.95em;
+    color: #555;
+  }
+
+  hr {
+      background: #cacaca;
+  }
+
+  .w-50 {
+      width: 50%;
+  }
+
+  .w-100 {
+      width: 100%;
+  }
+
+  .max-w-100 {
+      max-width: 100% !important;
+  }
+
+  .shadow-xs {
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#python-application-deployment-on-aws-ec2-using-apache-gunicorn"
+id="toc-python-application-deployment-on-aws-ec2-using-apache-gunicorn">🚀
+Python Application Deployment on AWS EC2 using Apache &amp;
+Gunicorn</a></li>
+<li><a href="#project-introduction"
+id="toc-project-introduction"><strong>Project
+Introduction</strong></a></li>
+<li><a href="#architecture-diagram"
+id="toc-architecture-diagram"><strong>1. Architecture
+Diagram</strong></a></li>
+<li><a href="#instance-setup" id="toc-instance-setup">2. Instance
+Setup</a>
+<ul>
+<li><a href="#launch-instance" id="toc-launch-instance">2.1 Launch
+Instance</a></li>
+<li><a href="#names-os" id="toc-names-os">2.2 Names &amp; OS</a></li>
+<li><a href="#ami-instance-type" id="toc-ami-instance-type">2.3 AMI
+&amp; Instance Type</a></li>
+<li><a href="#key-network" id="toc-key-network">2.4 Key &amp;
+Network</a></li>
+<li><a href="#start-instance" id="toc-start-instance">2.5 Start
+Instance</a></li>
+<li><a href="#connect" id="toc-connect">2.6 Connect</a></li>
+<li><a href="#copy-ssh-client-link" id="toc-copy-ssh-client-link">2.7
+Copy SSH Client Link</a></li>
+</ul></li>
+<li><a href="#installing-packages" id="toc-installing-packages">3.
+Installing Packages</a>
+<ul>
+<li><a href="#connect-instance-with-public-ip"
+id="toc-connect-instance-with-public-ip">3.1 Connect Instance With
+Public IP</a></li>
+<li><a href="#update-packages" id="toc-update-packages">3.2 Update
+Packages</a></li>
+<li><a href="#install-git" id="toc-install-git">3.3 Install Git</a></li>
+<li><a href="#git-clone-repo" id="toc-git-clone-repo">3.4 Git Clone
+Repo</a></li>
+<li><a href="#install-python" id="toc-install-python">3.5 Install
+Python</a></li>
+<li><a href="#install-pip" id="toc-install-pip">3.6 Install PIP</a></li>
+<li><a href="#view-git-python-pip-version"
+id="toc-view-git-python-pip-version">3.7 View Git, Python &amp; PIP
+Version</a></li>
+</ul></li>
+<li><a href="#running-python-app" id="toc-running-python-app">4. Running
+Python App</a>
+<ul>
+<li><a href="#go-to-directory-which-create-via-git-clone"
+id="toc-go-to-directory-which-create-via-git-clone">4.1 Go To Directory
+Which Create Via Git Clone</a></li>
+<li><a href="#create-virtual-environment-venv-inside-project-folder"
+id="toc-create-virtual-environment-venv-inside-project-folder">4.2
+Create Virtual Environment (venv) Inside Project Folder</a></li>
+<li><a href="#bash-activated-venv" id="toc-bash-activated-venv">4.3 Bash
+Activated venv</a></li>
+<li><a href="#install-requirements-inside-project-folder"
+id="toc-install-requirements-inside-project-folder">4.4 Install
+Requirements Inside Project Folder</a></li>
+<li><a href="#to-run-app-frontground"
+id="toc-to-run-app-frontground">4.5 To Run App (FrontGround)</a></li>
+<li><a href="#to-run-app-in-background"
+id="toc-to-run-app-in-background">4.6 To Run App In BackGround</a></li>
+</ul></li>
+<li><a href="#access-on-browser" id="toc-access-on-browser">5.
+<strong>Access</strong> On Browser</a>
+<ul>
+<li><a href="#to-add-port-number-5000"
+id="toc-to-add-port-number-5000">5.1 To Add Port Number 5000</a>
+<ul>
+<li><a href="#go-to-security-groups"
+id="toc-go-to-security-groups">5.1.1 Go To Security Groups</a></li>
+<li><a href="#edit-inbound-rules" id="toc-edit-inbound-rules">5.1.2 Edit
+Inbound Rules</a></li>
+<li><a
+href="#add-rule-type-custom-tcp-port-range-3000-source-anywhere-ipv4-save-rules"
+id="toc-add-rule-type-custom-tcp-port-range-3000-source-anywhere-ipv4-save-rules">5.1.3
+Add Rule → Type : Custom TCP → Port Range : 3000 → Source :
+Anywhere-IPv4 → Save Rules</a></li>
+</ul></li>
+<li><a href="#hit-it-on-browser-and-put-file-name"
+id="toc-hit-it-on-browser-and-put-file-name">5.2 Hit It On Browser And
+Put File Name</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary">Summary</a></li>
+</ul>
+</nav>
+<h1
+id="python-application-deployment-on-aws-ec2-using-apache-gunicorn">🚀
+Python Application Deployment on AWS EC2 using Apache &amp;
+Gunicorn</h1>
+<h1 id="project-introduction"><strong>Project Introduction</strong></h1>
+<p><strong>Python-App Deployment</strong> is a web-based application
+developed using Python, where the application runs using a built-in
+server and can also be deployed using Gunicorn for production-level
+performance.</p>
+<p>Project objective:</p>
+<p>Launching and configuring AWS EC2 instances Hosting Python web
+applications on Linux servers Managing Python virtual environments
+Installing and configuring Apache HTTP Server Running Flask applications
+using Gunicorn WSGI server Configuring security groups and networking
+Using GitHub for source code management</p>
+<h1 id="architecture-diagram"><strong>1. Architecture
+Diagram</strong></h1>
+<p><img src="./img/Python_architecture.png" /></p>
+<pre><code>⚙️ Technologies Used
+🐍 Python 3
+🌐 Flask
+🔫 Gunicorn
+☁️ AWS EC2
+🔧 Apache HTTP Server
+🐧 Amazon Linux
+🗂️ Git &amp; GitHub</code></pre>
+<pre><code>📂 Project Structure
+pythonapp/
+│
+├── app.py
+├── requirements.txt</code></pre>
+<h1 id="instance-setup">2. Instance Setup</h1>
+<h2 id="launch-instance">2.1 Launch Instance</h2>
+<p><img src="./img/Screenshot%202026-05-18%20181047.png" /></p>
+<h2 id="names-os">2.2 Names &amp; OS</h2>
+<p>Name : <code>Python</code></p>
+<p>OS : <code>Amazon Linux</code></p>
+<p><img src="./img/Screenshot%202026-05-18%20191210.png" /></p>
+<h2 id="ami-instance-type">2.3 AMI &amp; Instance Type</h2>
+<p>AMI : <code>Default</code></p>
+<p>Architecture : <code>Default</code></p>
+<p>Instance Type : <code>t3.micro</code> (2CPU &amp; 1GB Memory)</p>
+<p><img src="./img/Screenshot%202026-05-18%20191344.png" /></p>
+<h2 id="key-network">2.4 Key &amp; Network</h2>
+<p>Key : <code>Pratik-Virginia-Key</code> (Exiting One)</p>
+<p>Security Group : <code>Launch-Wizard-2</code> (Exiting One)</p>
+<p><img src="./img/Screenshot%202026-05-18%20191636.png" /></p>
+<h2 id="start-instance">2.5 Start Instance</h2>
+<p><img src="./img/Screenshot%202026-05-18%20191808.png" /></p>
+<h2 id="connect">2.6 Connect</h2>
+<p><img src="./img/Screenshot%202026-05-18%20191808.png" /></p>
+<h2 id="copy-ssh-client-link">2.7 Copy SSH Client Link</h2>
+<p><img src="./img/Screenshot%202026-05-18%20192038.png" /></p>
+<h1 id="installing-packages">3. Installing Packages</h1>
+<h2 id="connect-instance-with-public-ip">3.1 Connect Instance With
+Public IP</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ssh <span class="op">-</span>i Pratik<span class="op">-</span>Virginia<span class="op">-</span>Key<span class="op">.</span><span class="at">pem</span> ec2<span class="op">-</span>user@<span class="fl">54.161.38.170</span></span></code></pre></div>
+<h2 id="update-packages">3.2 Update Packages</h2>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sudo yum update</span></code></pre></div>
+<h2 id="install-git">3.3 Install Git</h2>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sudo yum install git <span class="op">-</span>y</span></code></pre></div>
+<p><img src="./img/Screenshot%202026-05-18%20182522.png" /></p>
+<h2 id="git-clone-repo">3.4 Git Clone Repo</h2>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">:</span><span class="co">//github.com/iamtruptimane/pythonapp</span></span></code></pre></div>
+<h2 id="install-python">3.5 Install Python</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sudo yum install python3 <span class="op">-</span>y</span></code></pre></div>
+<p><img src="./img/Screenshot%202026-05-18%20183130.png" /></p>
+<h2 id="install-pip">3.6 Install PIP</h2>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sudo yum install python3<span class="op">-</span>pip <span class="op">-</span>y</span></code></pre></div>
+<h2 id="view-git-python-pip-version">3.7 View Git, Python &amp; PIP
+Version</h2>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>git <span class="op">--</span>versio</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>python <span class="op">--</span>version</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pip <span class="op">--</span>version</span></code></pre></div>
+<p><img src="./img/Screenshot%202026-05-18%20192958.png" /></p>
+<h1 id="running-python-app">4. Running Python App</h1>
+<h2 id="go-to-directory-which-create-via-git-clone">4.1 Go To Directory
+Which Create Via Git Clone</h2>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cd <span class="op">/</span> pythonapp<span class="op">;</span></span></code></pre></div>
+<p><img src="./img/Screenshot%202026-05-18%20192622.png" /></p>
+<h2 id="create-virtual-environment-venv-inside-project-folder">4.2
+Create Virtual Environment (venv) Inside Project Folder</h2>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sudo python3 <span class="op">-</span>m venv myenv</span></code></pre></div>
+<p><img src="./img/Screenshot%202026-05-18%20183927.png" /></p>
+<h2 id="bash-activated-venv">4.3 Bash Activated venv</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sudo bash myenv<span class="op">/</span>bin<span class="op">/</span>activate</span></code></pre></div>
+<h2 id="install-requirements-inside-project-folder">4.4 Install
+Requirements Inside Project Folder</h2>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sudo pip install <span class="op">-</span>r requirements<span class="op">.</span><span class="at">txt</span></span></code></pre></div>
+<h2 id="to-run-app-frontground">4.5 To Run App (FrontGround)</h2>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>python3 app<span class="op">.</span><span class="at">py</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>If Press Ctrl <span class="op">+</span> C → App Stops</span></code></pre></div>
+<h2 id="to-run-app-in-background">4.6 To Run App In BackGround</h2>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gunicorn <span class="op">--</span>bind <span class="fl">0.0.0.0</span><span class="op">:</span><span class="dv">5000</span> app<span class="op">:</span>app <span class="op">--</span>daemon</span></code></pre></div>
+<h1 id="access-on-browser">5. <strong>Access</strong> On Browser</h1>
+<h2 id="to-add-port-number-5000">5.1 To Add Port Number 5000</h2>
+<h3 id="go-to-security-groups">5.1.1 Go To Security Groups</h3>
+<p><img src="./img/Screenshot%202026-05-18%20193228.png" /></p>
+<h3 id="edit-inbound-rules">5.1.2 Edit Inbound Rules</h3>
+<p><img src="./img/Screenshot%202026-05-18%20185914.png" /></p>
+<h3
+id="add-rule-type-custom-tcp-port-range-3000-source-anywhere-ipv4-save-rules">5.1.3
+Add Rule → Type : Custom TCP → Port Range : 3000 → Source :
+Anywhere-IPv4 → Save Rules</h3>
+<p><img src="./img/Screenshot%202026-05-18%20193350.png" /></p>
+<h2 id="hit-it-on-browser-and-put-file-name">5.2 Hit It On Browser And
+Put File Name</h2>
+<p><code>public ip:5000</code></p>
+<p><img src="./img/Screenshot%202026-05-18%20185625.png" /></p>
+<pre><code># 🔥 Key Learnings
+
+- AWS EC2 setup
+- Linux server management
+- Python virtual environments
+- Flask application deployment
+- Gunicorn configuration
+- Apache server basics
+- GitHub integration</code></pre>
+<h1 id="summary">Summary</h1>
+<p>It Enables Users To Access The Application Through A Public IP On
+Port 5000, Demonstrating Basic Cloud Deployment And Application Hosting
+In A Structured Environment.</p>
+</body>
+</html>
